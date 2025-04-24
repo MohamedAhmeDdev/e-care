@@ -18,12 +18,12 @@ function RegisterClient() {
     e.preventDefault()
     setError('')
 
-    // Basic validation
-    if (!firstName || !lastName || !email) {
-      setError('Please fill in all required fields')
-      return
-    }
-
+       // Basic validation
+       if (!firstName || !lastName || !email) {
+        setError('Please fill in all required fields')
+        return
+      }
+      
     try {
       setIsLoading(true)
       // API call would go here
@@ -49,6 +49,12 @@ function RegisterClient() {
           <div className="flex justify-between items-center border-b pb-4">
             <h3 className="text-lg font-medium text-gray-900">Add New Client</h3>
           </div>
+
+          {error && (
+              <div className="text-red-500 text-sm">
+                {error}
+              </div>
+            )}
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-6">
             <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
@@ -137,11 +143,6 @@ function RegisterClient() {
               </div>
             </div>
 
-            {error && (
-              <div className="text-red-500 text-sm">
-                {error}
-              </div>
-            )}
 
             <div className=" px-6 py-4 flex justify-end border-t">
               <button
