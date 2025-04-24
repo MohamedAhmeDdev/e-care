@@ -2,7 +2,6 @@ import React from 'react';
 import Header from '../layouts/Header';
 import { FaUserInjured, FaProcedures, FaCalendarCheck, FaFileMedical } from 'react-icons/fa';
 import { MdHealthAndSafety, MdLocalPharmacy } from 'react-icons/md';
-import { FiActivity } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 function Dashboard() {
@@ -25,7 +24,6 @@ function Dashboard() {
       <Header />
       
       <div className="p-6">
-        {/* Dashboard Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
         </div>
@@ -49,10 +47,9 @@ function Dashboard() {
 
         {/* Main Content Area */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
           {/* Left Column - Charts */}
           <div className="lg:col-span-2 space-y-6">
-
-            {/* Recent Activities */}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Recent Enrollment</h2>
               <div className="space-y-4">
@@ -75,7 +72,6 @@ function Dashboard() {
 
           {/* Right Column - Quick Actions and Alerts */}
           <div className="space-y-6">
-            {/* Quick Actions */}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h2>
               <div className="grid grid-cols-2 gap-3">
