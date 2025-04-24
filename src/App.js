@@ -12,6 +12,7 @@ import Programs from "./pages/Program/Programs";
 import CreateProgram from "./pages/Program/CreateProgram";
 import ClientsPrograms from "./pages/Clients/ClientsPrograms";
 import UpdateProgram from "./pages/Program/UpdateProgram";
+import UpdateClient from "./pages/Clients/UpdateClient";
 
 
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="clients" element={<Clients />} />
           <Route path="clients/new" element={<RegisterClient />} />
           <Route path="clients/:id/enroll" element={<EnrollClient />} />
+          <Route path="clients/:id/edit" element={<UpdateClient />} />
           <Route path="clients/:id/programs" element={<ClientsPrograms />} />
           <Route path="clients/:id/profile" element={<ClientProfile />} />
 
