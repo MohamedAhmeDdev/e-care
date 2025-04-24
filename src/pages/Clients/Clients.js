@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {  FiPlus, FiEdit2, FiTrash2, } from 'react-icons/fi';
-import { FaUserInjured, FaRegCalendarAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaUserInjured, FaPhone, FaEnvelope } from 'react-icons/fa';
 import { MdHealthAndSafety} from 'react-icons/md';
 import Header from '../../layouts/Header';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,6 @@ import Search from '../../components/Search';
 
 function Clients() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeTab, setActiveTab] = useState('all');
 
   const clients = [
     {
@@ -47,11 +46,10 @@ function Clients() {
   ];
 
   const filteredClients = clients.filter(client => {
-    const matchesSearch = client.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         client.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         client.phone.includes(searchTerm);
-    const matchesTab = activeTab === 'all' || client.status === activeTab;
-    return matchesSearch && matchesTab;
+    const matchesSearch =
+     client.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+     client.email.toLowerCase().includes(searchTerm.toLowerCase())
+    return matchesSearch 
   });
 
   return (
@@ -64,11 +62,9 @@ function Clients() {
           <p className="text-gray-600">Manage all patient records and information</p>
         </div>
         <Link to='/clients/new'>
-        <button 
-            className="mt-4 md:mt-0 flex items-center text-sm bg-black text-white px-4 py-2 rounded-lg shadow-sm transition-colors"
-          >
-            <FiPlus className="mr-2" />
-            New Client
+        <button className="mt-4 md:mt-0 flex items-center text-sm bg-black text-white px-4 py-2 rounded-lg shadow-sm transition-colors" >
+          <FiPlus className="mr-2" />
+           New Client
           </button>
         </Link>
       </div>
