@@ -11,7 +11,7 @@ function Search({searchTerm, setSearchTerm}) {
                 </div>
                 <input
                   type="text"
-                  placeholder="Search clients by name, email or phone"
+                  placeholder="Search clients by name, email"
                   className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
