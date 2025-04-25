@@ -35,7 +35,9 @@ function ClientsProgramsCard({program}) {
             </div>
             <div className="text-gray-600">
             <span className="text-gray-500">Case Manager: </span>
-            <span className="font-medium">{program.caseManager}</span>
+            <span className="font-medium">
+              {program.user ? program.user.name : 'No doctor Assigned'}
+            </span>
             </div>
         </div>
         </div>

@@ -18,7 +18,6 @@ function ClientsPrograms() {
         const response = await axios.get(
           `${SERVER_URL}/enroll/enrollments/${client_id}`
         );
-        console.log(response.data.data);
 
         setEnrolledPrograms(response.data.data);
       } catch (error) {
