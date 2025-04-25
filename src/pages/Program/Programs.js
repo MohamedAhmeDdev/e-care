@@ -93,7 +93,7 @@ const deleteProgram = async (id) => {
                   </div>
                 </div>
                 <div className="flex items-center">
-                <button className="text-yellow-600 hover:text-yellow-900 p-1 rounded hover:bg-yellow-50">
+                <button className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50">
                   <Link to={`/programs/${program.program_id}/edit`}>
                     <FiEdit2 size={18} />
                   </Link>
