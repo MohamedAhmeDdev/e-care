@@ -1,37 +1,56 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { SERVER_URL } from '../../constant'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 function UpdateProgram() {
-  const [programName, setProgramName] = useState("")
+  const [program_name, setProgram_name] = useState("")
   const [code, setCode] = useState("")
   const [disease, setDisease] = useState("")
   const [description, setDescription] = useState("")
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const {id} =  useParams()
 
+
+  // Function to fetch program by ID from the server
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${SERVER_URL}/program/${id}`);
+        setProgram_name(response.data.data.program_name)
+        setCode(response.data.data.code)
+        setDisease(response.data.data.disease)
+        setDescription(response.data.data.description)
+      
+      } catch (error) {
+        console.error(error.response?.data?.message || error.message);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+ //function for updating program to the server
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-
-    // Basic validation
-    if (!programName || !code || !disease || !description) {
-      setError('Please fill in all required fields')
-      return
-    }
-    
+  
     try {
       setIsLoading(true)
-      // API call 
+      const response = await axios.put(`${SERVER_URL}/program/${id}`, {
+        program_name,
+        code,
+        disease,
+        description
+      })
       
-      setTimeout(() => {
-        alert('Program created successfully!')
-        setIsLoading(false)
-        // Redirect to dashboard page after successful creation
-        navigate('/programs')
-      }, 1000)
+      toast.success(response?.data?.message)
+      navigate('/programs')
     } catch (err) {
-      setError(err.message || 'Creation failed. Please try again.')
+      toast.error(err.response?.data?.message)
       setIsLoading(false)
     }
   }
@@ -57,8 +76,8 @@ function UpdateProgram() {
                   Program Name
                 </label>
                 <input
-                  value={programName}
-                  onChange={(e) => setProgramName(e.target.value)}
+                  value={program_name}
+                  onChange={(e) => setProgram_name(e.target.value)}
                   type="text"
                   required
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm"
