@@ -41,7 +41,7 @@ Install e-care with npm
 
 ```bash
   npm install e-server
-  cd server
+  cd e-server
   npm nodemon
 ```
 
