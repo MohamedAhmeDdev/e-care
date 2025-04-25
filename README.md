@@ -19,14 +19,14 @@ A modern web application for healthcare providers to manage client health progra
 
 ## 🛠 Tech Stack
 
-**Frontend:** React, Tailwind CSS,
-**Backend:** Node.js, Express, Mysql
-**Authentication:** JWT  
-**Deployment:** Vercel & Render
+- **frontend framework** - React.js
+- **styling** - Tailwind CSS
+- **icons** - react icons
+- **Deployment:** Vercel
 
 ## Installation
 
-### 1. frontend
+### frontend
 Install e-care with npm
 
 ```bash
@@ -35,15 +35,6 @@ Install e-care with npm
   npm start
 ```
 
-
-### 2. backend
-Install e-care with npm
-
-```bash
-  npm install e-server
-  cd e-server
-  npm nodemon
-```
 
 ## live link
 [e-care](https://e-care-virid.vercel.app/)
