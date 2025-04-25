@@ -31,8 +31,6 @@ export const ApiCall = async (url, method, data = {}, headers = {}) => {
     if (status === 400) {
       toast.error(errMessage);
     }
-
-    // Always return a valid object to prevent null issues
     return { success: false, message: errMessage };
   }
 };
