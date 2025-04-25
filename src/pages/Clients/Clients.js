@@ -9,11 +9,19 @@ import { SERVER_URL } from '../../constant';
 import axios from 'axios'
 import { FormattedDate } from '../../utils/FormattedDate';
 import { toast } from 'react-toastify';
+import DeleteModal from '../../components/DeleteModal';
 
 
 function Clients() {
   const [clients, setClients] = useState([])
   const [searchTerm, setSearchTerm] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
+
+  const handleDeleteClick = (client) => {
+    setSelectedClient(client);
+    setShowDeleteModal(true);
+  };
 
 // Function to fetch clients from the server
   useEffect(() => {
@@ -60,7 +68,7 @@ const deleteClient = async (clientId) => {
           <h1 className="text-2xl font-bold text-gray-800">Client Management</h1>
           <p className="text-gray-600">Manage all patient records and information</p>
         </div>
-        <Link to='/new'>
+        <Link to='/clients/new'>
         <button className="mt-4 md:mt-0 flex items-center text-sm bg-black text-white px-4 py-2 rounded-lg shadow-sm transition-colors" >
           <FiPlus className="mr-2" />
            New Client
@@ -134,7 +142,7 @@ const deleteClient = async (clientId) => {
                          <FiEdit2 size={18} />
                         </Link>
                       </button>
-                      <button onClick={() => deleteClient(client.client_id)} className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50">
+                      <button  onClick={() => handleDeleteClick(client)}  className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50">
                         <FiTrash2 size={18} />
                       </button>
                     </div>
@@ -155,7 +163,7 @@ const deleteClient = async (clientId) => {
             {searchTerm ? 'Try adjusting your search or filter' : 'Get started by adding a new client'}
           </p>
           <div className="mt-6">
-            <Link to='/new'>
+            <Link to='/clients/new'>
               <button
                 className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black focus:outline-none"
               >
@@ -165,6 +173,14 @@ const deleteClient = async (clientId) => {
             </Link>
           </div>
         </div>
+      )}
+
+      {showDeleteModal && selectedClient && (
+              <DeleteModal
+                client={selectedClient}
+                onClose={() => setShowDeleteModal(false)}
+                onDelete={() => deleteClient(selectedClient.client_id)}
+              />
       )}
     </div>
   );
