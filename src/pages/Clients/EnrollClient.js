@@ -10,10 +10,10 @@ import { toast } from 'react-toastify';
 import { SERVER_URL } from '../../constant';
 import axios from 'axios'
 import { useNavigate, useParams } from "react-router-dom";
-import { ApiCall } from "../../utils/ApiCall";
+import { ApiCall } from "../../utils/Api";
 
 
-function EnrollClient() {
+function EnrollClient() {``
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
