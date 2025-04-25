@@ -33,7 +33,7 @@ function RegisterClient() {
       })
       
       toast.success(response?.data?.message)
-      navigate('/clients')
+      navigate('/')
     } catch (err) {
        toast.error(err.response?.data?.message)
       setIsLoading(false)

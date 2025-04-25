@@ -3,7 +3,6 @@ import "./App.css";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
-import Dashboard from "./pages/Dashboard";
 import Clients from "./pages/Clients/Clients";
 import RegisterClient from "./pages/Clients/RegisterClient";
 import EnrollClient from "./pages/Clients/EnrollClient";
@@ -26,11 +25,8 @@ function App() {
 
         {/* protected dashboard layout */}
         <Route path="/" element={<DashboardLayout />}>
-          {/* Dashboard “index” view */}
-          <Route index element={<Dashboard />} />
-
           {/* client routes */}
-          <Route path="clients" element={<Clients />} />
+          <Route index element={<Clients />} />
           <Route path="clients/new" element={<RegisterClient />} />
           <Route path="clients/:id/enroll" element={<EnrollClient />} />
           <Route path="clients/:id/edit" element={<UpdateClient />} />

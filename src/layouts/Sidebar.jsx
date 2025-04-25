@@ -8,8 +8,7 @@ import { useSidebar } from "../context/SidebarContext";
 import Logo from '../assets/logo.jpg'
 
 const SIDEBAR_ITEMS = [
-  { name: "Dashboard",        icon: FaTachometerAlt, href: "/" },
-  { name: "Clients",          icon: FaUsers,         href: "/clients" },
+  { name: "Clients",          icon: FaUsers, href: "/" },
   { name: "Register Client",  icon: FaUsers, href: "/clients/new" },
   { name: "Programs",         icon: FaHouseChimney,  href: "/programs" },
   { name: "Create Program",   icon: FaHouseChimney,  href: "/programs/new" },

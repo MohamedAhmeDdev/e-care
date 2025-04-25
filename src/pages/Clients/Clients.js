@@ -60,7 +60,7 @@ const deleteClient = async (clientId) => {
           <h1 className="text-2xl font-bold text-gray-800">Client Management</h1>
           <p className="text-gray-600">Manage all patient records and information</p>
         </div>
-        <Link to='/clients/new'>
+        <Link to='/new'>
         <button className="mt-4 md:mt-0 flex items-center text-sm bg-black text-white px-4 py-2 rounded-lg shadow-sm transition-colors" >
           <FiPlus className="mr-2" />
            New Client
@@ -155,7 +155,7 @@ const deleteClient = async (clientId) => {
             {searchTerm ? 'Try adjusting your search or filter' : 'Get started by adding a new client'}
           </p>
           <div className="mt-6">
-            <Link to='/clients/new'>
+            <Link to='/new'>
               <button
                 className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-black focus:outline-none"
               >
