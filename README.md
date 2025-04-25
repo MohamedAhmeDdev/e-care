@@ -40,7 +40,7 @@ Install e-care with npm
 Install e-care with npm
 
 ```bash
-  npm install server
+  npm install e-server
   cd server
   npm nodemon
 ```
