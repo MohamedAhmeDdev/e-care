@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { SERVER_URL } from '../../constant'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { UseAuthContext } from "../../hooks/User";
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ function Login() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate()
-
+  const { dispatch } = UseAuthContext();
 
   //function for login to the server
   const handleSubmit = async (e) => {
@@ -23,9 +24,15 @@ function Login() {
         email,
         password,
       })
-      
-      toast.success(response?.data?.message)
-      navigate('/')
+      .then((response) => {
+        const user = response.data.token;
+
+        localStorage.setItem("user", JSON.stringify(user));
+        dispatch({ type: "LOGIN", payload: user });
+        toast.success(response?.data?.message)
+        navigate('/')
+      });
+
     } catch (err) {
       toast.error(err.response?.data?.message)
       setIsLoading(false)
