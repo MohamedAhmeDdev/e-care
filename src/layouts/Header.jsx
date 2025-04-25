@@ -1,11 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import {  IoIosMenu } from "react-icons/io";
 import { useSidebar } from "../context/SidebarContext";
+import {getUserInfo} from '../utils/Token'
+
 
 const Header = ({ title }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { toggleSidebar } = useSidebar();
+  const userInfo = getUserInfo();
+  
+  
 
   const handleClickOutside = useCallback((event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -43,11 +48,11 @@ const Header = ({ title }) => {
             aria-haspopup="true"
             aria-expanded={isOpen}
           >
-            <div className="w-8 h-8 rounded-full bg-accent-cyan-blue flex items-center justify-center bg-white text-black font-medium">
-              JD
+            <div className="w-8 h-8 rounded-full bg-accent-cyan-blue uppercase flex items-center justify-center bg-white text-black font-medium">
+              {userInfo.user.name.split(' ').map(n => n[0]).join('')}
             </div>
             <div className="hidden md:flex flex-col items-start">
-              <span className="text-sm font-medium text-black">Jane Doe</span>
+              <span className="text-sm font-medium text-black">{userInfo.user.name}</span>
             </div>
           </div>
 
