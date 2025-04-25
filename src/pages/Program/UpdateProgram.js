@@ -41,7 +41,7 @@ function UpdateProgram() {
       <div className="bg-white rounded-lg shadow-xl max-w-3xl mx-auto w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center border-b pb-4">
-            <h3 className="text-lg font-medium text-gray-900">Create New Health Program</h3>
+            <h3 className="text-lg font-medium text-gray-900">Update Health Program</h3>
           </div>
 
           {error && (
