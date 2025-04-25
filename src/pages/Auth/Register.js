@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { SERVER_URL } from '../../constant'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 function Register() {
   const [name, setName] = useState('');
@@ -9,25 +12,28 @@ function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+
+//function for registering user
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  setError('')
+
+  try {
+    setIsLoading(true)
+    const response = await axios.post(`${SERVER_URL}/auth/signup`, {
+      name,
+      email,
+      password,
+    })
     
-    try {
-      setIsLoading(true);
-          // API call 
-      
-      setTimeout(() => {
-        alert('Registration successful! (This is a demo)');
-        setIsLoading(false);
-        // Redirect to dashboard page after successful registration
-        navigate('/');
-      }, 1000);
-    } catch (err) {
-      setError(err.message || 'Registration failed. Please try again.');
-      setIsLoading(false);
-    }
-  };
+    toast.success(response?.data?.message)
+    navigate('/')
+  } catch (err) {
+     toast.error(err.response?.data?.message)
+    setIsLoading(false)
+  }
+}
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">

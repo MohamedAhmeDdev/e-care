@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { SERVER_URL } from '../../constant'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -8,26 +11,28 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate()
 
+
+  //function for login to the server
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError('')
 
     try {
-      setIsLoading(true);
-        // API call
+      setIsLoading(true)
+      const response = await axios.post(`${SERVER_URL}/auth/login/`, {
+        email,
+        password,
+      })
       
-      setTimeout(() => {
-        alert('Login successful! (This is a demo)');
-        setIsLoading(false);
-        // Redirect to dashboard page after successful registration
-        navigate('/');
-      }, 1000);
+      toast.success(response?.data?.message)
+      navigate('/')
     } catch (err) {
-      setError(err.message || 'Login failed. Please try again.');
-      setIsLoading(false);
+      toast.error(err.response?.data?.message)
+      setIsLoading(false)
     }
-  };
+  }
 
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
