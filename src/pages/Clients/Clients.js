@@ -1,56 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {  FiPlus, FiEdit2, FiTrash2, } from 'react-icons/fi';
 import { FaUserInjured, FaPhone, FaEnvelope } from 'react-icons/fa';
 import { MdHealthAndSafety} from 'react-icons/md';
 import Header from '../../layouts/Header';
 import { Link } from 'react-router-dom';
 import Search from '../../components/Search';
+import { SERVER_URL } from '../../constant';
+import axios from 'axios'
+import { FormattedDate } from '../../utils/FormattedDate';
+import { toast } from 'react-toastify';
+
 
 function Clients() {
+  const [clients, setClients] = useState([])
   const [searchTerm, setSearchTerm] = useState('');
 
-  const clients = [
-    {
-      id: 1,
-      name: 'John Doe',
-      dob: '1985-03-15',
-      gender: 'Male',
-      phone: '(555) 123-4567',
-      email: 'john.doe@example.com',
-      address: '123 Main St, Anytown',
-      status: 'active',
-      lastVisit: '2023-05-15'
-    },
-    {
-      id: 2,
-      name: 'Sarah Smith',
-      dob: '1990-07-22',
-      gender: 'Female',
-      phone: '(555) 987-6543',
-      email: 'sarah.smith@example.com',
-      address: '456 Oak Ave, Somewhere',
-      status: 'active',
-      lastVisit: '2023-06-02'
-    },
-    {
-      id: 3,
-      name: 'Michael Johnson',
-      dob: '1978-11-30',
-      gender: 'Male',
-      phone: '(555) 456-7890',
-      email: 'michael.j@example.com',
-      address: '789 Pine Rd, Nowhere',
-      status: 'inactive',
-      lastVisit: '2022-12-10'
-    }
-  ];
-
+// Function to fetch clients from the server
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${SERVER_URL}/client/clients`);        
+        setClients(response.data.data);
+      } catch (error) {
+        console.error(error.response?.data?.message);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
+  // Function for searching clients
   const filteredClients = clients.filter(client => {
     const matchesSearch =
-     client.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+     client.first_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+     client.last_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
      client.email.toLowerCase().includes(searchTerm.toLowerCase())
     return matchesSearch 
   });
+
+
+// Function for deleting clients from the server
+const deleteClient = async (clientId) => {
+  try {
+    const response = await axios.delete(`${SERVER_URL}/client/${clientId}`);
+    setClients(prevClients => prevClients.filter(client => client.client_id !== clientId));
+        toast.success(response?.data?.message)
+  } catch (error) {
+      toast.error(error.response?.data?.message)
+  }
+};
+  
 
   return (
     <div className="bg-gray-50 min-h-screen p-6">
@@ -97,7 +96,7 @@ function Clients() {
                         <FaUserInjured className="text-blue-600" />
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{client.name}</div>
+                        <div className="text-sm font-medium text-gray-900">{client.first_name} {clients.last_name}</div>
                       </div>
                     </div>
                   </td>
@@ -111,31 +110,31 @@ function Clients() {
                       {client.email}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 text-sm">{client.dob}</td>  
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 text-sm"> {FormattedDate(client.date_of_birth)}</td>  
                   <td className="px-6 py-4 whitespace-nowrap text-gray-500 text-sm">{client.gender}</td>                         
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Link to={`/clients/${client.id}/profile`}>
+                    <Link to={`/clients/${client.client_id}/profile`}>
                       <span className='text-blue-400 text-sm hover:underline'> Profile</span>
                     </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Link to={`/clients/${client.id}/programs`}>
+                    <Link to={`/clients/${client.client_id}/programs`}>
                      <span className='text-blue-400 text-sm hover:underline'>Program</span>
                     </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <Link to={`/clients/${client.id}/enroll`}>
+                    <Link to={`/clients/${client.client_id}/enroll`}>
                      <span className='text-blue-400 text-sm hover:underline'>Enroll</span>
                     </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
-                      <button className="text-yellow-600 hover:text-yellow-900 p-1 rounded hover:bg-yellow-50">
-                       <Link to={`/clients/${client.id}/edit`}>
+                      <button className="text-green-600 hover:text-green-900 p-1 rounded hover:bg-green-50">
+                       <Link to={`/clients/${client.client_id}/edit`}>
                          <FiEdit2 size={18} />
                         </Link>
                       </button>
-                      <button className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50">
+                      <button onClick={() => deleteClient(client.client_id)} className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50">
                         <FiTrash2 size={18} />
                       </button>
                     </div>
