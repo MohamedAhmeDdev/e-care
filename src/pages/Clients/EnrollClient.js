@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { SERVER_URL } from '../../constant';
 import axios from 'axios'
 import { useNavigate, useParams } from "react-router-dom";
+import { ApiCall } from "../../utils/ApiCall";
 
 
 function EnrollClient() {
@@ -77,7 +78,7 @@ function EnrollClient() {
   
     try {
       setIsLoading(true);
-      const response = await axios.post(`${SERVER_URL}/enroll/`, {
+      const response = await ApiCall(`${SERVER_URL}/enroll/`, 'POST', {
         client_id: id,
         medicalHistory: formData.medicalHistory,
         program_name: selectedProgramNames
