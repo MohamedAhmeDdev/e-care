@@ -12,6 +12,7 @@ import CreateProgram from "./pages/Program/CreateProgram";
 import ClientsPrograms from "./pages/Clients/ClientsPrograms";
 import UpdateProgram from "./pages/Program/UpdateProgram";
 import UpdateClient from "./pages/Clients/UpdateClient";
+import ProtectedRoute from "./utils/ProtectedRoute"; // adjust path if needed
 
 
 
@@ -24,7 +25,14 @@ function App() {
         <Route path="login"    element={<Login />} />
 
         {/* protected dashboard layout */}
-        <Route path="/" element={<DashboardLayout />}>
+        <Route
+      path="/"
+      element={
+        <ProtectedRoute>
+          <DashboardLayout />
+        </ProtectedRoute>
+      }
+    >
           {/* client routes */}
           <Route index element={<Clients />} />
           <Route path="clients/new" element={<RegisterClient />} />

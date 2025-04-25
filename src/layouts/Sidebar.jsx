@@ -3,9 +3,10 @@ import { FaMoneyBillWave, FaHouseChimney, FaUsers } from "react-icons/fa6";
 import { FaTachometerAlt  } from "react-icons/fa";
 import { CiLogout   } from "react-icons/ci";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSidebar } from "../context/SidebarContext";
 import Logo from '../assets/logo.jpg'
+import { UseAuthContext } from "../hooks/User";
 
 const SIDEBAR_ITEMS = [
   { name: "Clients",          icon: FaUsers, href: "/" },
@@ -18,6 +19,8 @@ const Sidebar = () => {
   const [openSubmenus, setOpenSubmenus] = useState({});
   const location = useLocation();
   const { isSidebarOpen, toggleSidebar } = useSidebar();
+  const { dispatch } = UseAuthContext();
+  const navigate = useNavigate()
 
   const toggleSubmenu = (name) => {
     setOpenSubmenus((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -29,6 +32,11 @@ const Sidebar = () => {
     return false;
   };
 
+  const handleClick = () => {
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGOUT" }); 
+    navigate('/login')
+  };
   return (
     <>
       {isSidebarOpen && (
@@ -101,9 +109,11 @@ const Sidebar = () => {
         </nav>
 
         <div className="position bottom-0">
-          <div className="flex items-center font-semibold  w-full p-3 text-center rounded-lg text-gray-600 bg-gray-50 cursor-pointer">
-            <CiLogout className="font-bold" />
-            <p className="pl-2">logout</p>
+          <div className="flex items-center pl-10 font-semibold  w-full p-3 text-center rounded-lg text-gray-600 bg-gray-50 cursor-pointer">
+            <button className="flex item-center text-black bg-gray-300 rounded-md px-3 py-1.5" onClick={handleClick}>
+              <CiLogout className="font-bold" />
+              <p className="pl-2">logout</p>
+            </button>
           </div>
         </div>
         <div className="mt-auto border-t border-gray-100 py-4 px-5 text-center text-xs text-gray-500">
