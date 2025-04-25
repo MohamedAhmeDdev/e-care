@@ -1,46 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FiPlus, FiEdit2, FiTrash2,} from 'react-icons/fi';
 import { MdHealthAndSafety, MdOutlineScience } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import Search from '../../components/Search';
 import Header from '../../layouts/Header';
+import { SERVER_URL } from '../../constant';
+import axios from 'axios'
+import { toast } from 'react-toastify';
 
 function Programs() {
   const [searchTerm, setSearchTerm] = useState('');
+   const [programs, setPrograms] = useState([])
 
-  const programs = [
-    {
-      id: 1,
-      name: 'TB Control Program',
-      code: 'TB-2023',
-      description: 'Comprehensive tuberculosis detection and treatment program',
-      disease: 'Tuberculosis',
-    },
-    {
-      id: 2,
-      name: 'Malaria Prevention',
-      code: 'ML-2023',
-      description: 'Community-wide malaria prevention and education',
-      disease: 'Malaria',
-    },
-    {
-      id: 3,
-      name: 'HIV/AIDS Care',
-      code: 'HIV-2022',
-      description: 'Long-term HIV treatment and support program',
-      disease: 'HIV/AIDS',
+// Function to fetch program from the server
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}/program`);        
+      setPrograms(response.data.data);
+    } catch (error) {
+      console.error(error.response?.data?.message);
     }
-  ];
+  };
 
+  fetchData();
+}, []);
 
 
   const filteredPrograms = programs.filter(program => {
-    const matchesSearch = program.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = program.program_name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                          program.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          program.disease.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesSearch;
   });
 
+
+  // Function for deleting program from the server
+const deleteProgram = async (id) => {
+  try {
+    const response = await axios.delete(`${SERVER_URL}/program/${id}`);
+    setPrograms(prevProgram => prevProgram.filter(program => program.program_id !== id));
+        toast.success(response?.data?.message)
+  } catch (error) {
+      toast.error(error.response?.data?.message)
+  }
+};
 
   return (
     <div className="bg-gray-50 min-h-screen p-6">
@@ -74,7 +78,7 @@ function Programs() {
                   </div>
                   <div className="ml-4">
                     <div className="flex items-center">
-                      <h3 className="text-lg font-semibold text-gray-900">{program.name}</h3>
+                      <h3 className="text-lg font-semibold text-gray-900">{program.program_name}</h3>
                       <span className="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
                         {program.code}
                       </span>
@@ -90,11 +94,11 @@ function Programs() {
                 </div>
                 <div className="flex items-center">
                 <button className="text-yellow-600 hover:text-yellow-900 p-1 rounded hover:bg-yellow-50">
-                  <Link to={`/programs/${program.id}/edit`}>
+                  <Link to={`/programs/${program.program_id}/edit`}>
                     <FiEdit2 size={18} />
                   </Link>
                 </button>
-                <button className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50">
+                <button onClick={() => deleteProgram(program.program_id)} className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50">
                   <FiTrash2 size={18} />
                 </button>
                 </div>
