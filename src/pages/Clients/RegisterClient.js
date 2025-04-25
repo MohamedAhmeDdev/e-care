@@ -32,7 +32,7 @@ function RegisterClient() {
         alert('Client registration successful!')
         setIsLoading(false)
         // Redirect to dashboard page after successful registration
-        navigate('/')
+        navigate('/clients')
       }, 1000)
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.')
@@ -44,7 +44,7 @@ function RegisterClient() {
     <div className="bg-gray-50 min-h-screen p-6">
       <Header/>
 
-      <div className="bg-white rounded-lg w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl max-w-3xl mx-auto w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center border-b pb-4">
             <h3 className="text-lg font-medium text-gray-900">Add New Client</h3>
@@ -60,7 +60,7 @@ function RegisterClient() {
             <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
               <div className="sm:col-span-3">
                 <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
-                  First name *
+                  First name
                 </label>
                 <input
                   value={firstName}
@@ -74,7 +74,7 @@ function RegisterClient() {
 
               <div className="sm:col-span-3">
                 <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                  Last name *
+                  Last name
                 </label>
                 <input
                   value={lastName}
@@ -130,7 +130,7 @@ function RegisterClient() {
 
               <div className="sm:col-span-3">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email *
+                  Email
                 </label>
                 <input
                   value={email}
