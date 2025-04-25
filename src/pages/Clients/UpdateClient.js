@@ -1,41 +1,65 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../layouts/Header'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { SERVER_URL } from '../../constant'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 
 function UpdateClient() {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [dateOfBirth, setDateOfBirth] = useState('')
+  const [first_name, setFirst_name] = useState('')
+  const [last_name, setLast_name] = useState('')
+  const [date_of_birth, setDate_of_birth] = useState('')
   const [gender, setGender] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const {id} =  useParams()
   
 
+
+  // Function to fetch clients by ID from the server
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${SERVER_URL}/client/client/${id}`);
+        setFirst_name(response.data.data.first_name)
+        setLast_name(response.data.data.last_name)
+        setEmail(response.data.data.email)
+        setPhone(response.data.data.phone)
+        setGender(response.data.data.gender)
+        setDate_of_birth(response.data.data.date_of_birth)
+      
+      } catch (error) {
+        console.error(error.response?.data?.message || error.message);
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+
+//function for updating client to the server
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-
-       // Basic validation
-       if (!firstName || !lastName || !email) {
-        setError('Please fill in all required fields')
-        return
-      }
-      
+  
     try {
       setIsLoading(true)
-      // API call would go here
+      const response = await axios.put(`${SERVER_URL}/client/${id}`, {
+        first_name,
+        last_name,
+        date_of_birth,
+        gender,
+        email,
+        phone,
+      })
       
-      setTimeout(() => {
-        alert('Client registration successful!')
-        setIsLoading(false)
-        // Redirect to dashboard page after successful registration
-        navigate('/clients')
-      }, 1000)
+      toast.success(response?.data?.message)
+      navigate('/clients')
     } catch (err) {
-      setError(err.message || 'Registration failed. Please try again.')
+      toast.error(err.response?.data?.message)
       setIsLoading(false)
     }
   }
@@ -63,8 +87,8 @@ function UpdateClient() {
                   First name
                 </label>
                 <input
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={first_name}
+                  onChange={(e) => setFirst_name(e.target.value)}
                   type="text"
                   required
                   autoComplete="given-name"
@@ -77,42 +101,13 @@ function UpdateClient() {
                   Last name
                 </label>
                 <input
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={last_name}
+                  onChange={(e) => setLast_name(e.target.value)}
                   type="text"
                   required
                   autoComplete="family-name"
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                 />
-              </div>
-
-              <div className="sm:col-span-3">
-                <label htmlFor="dob" className="block text-sm font-medium text-gray-700">
-                  Date of Birth
-                </label>
-                <input
-                  value={dateOfBirth}
-                  onChange={(e) => setDateOfBirth(e.target.value)}
-                  type="date"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                />
-              </div>
-
-              <div className="sm:col-span-3">
-                <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
-                  Gender
-                </label>
-                <select
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  name="gender"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                >
-                  <option value="">Select gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </select>
               </div>
 
               <div className="sm:col-span-3">
@@ -140,6 +135,35 @@ function UpdateClient() {
                   autoComplete="email"
                   className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm"
                 />
+              </div>
+
+              <div className="sm:col-span-3">
+                <label htmlFor="dob" className="block text-sm font-medium text-gray-700">
+                  Date of Birth
+                </label>
+                <input
+                  value={date_of_birth}
+                  onChange={(e) => setDate_of_birth(e.target.value)}
+                  type="date"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm"
+                />
+              </div>
+
+              <div className="sm:col-span-3">
+                <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
+                  Gender
+                </label>
+                <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  name="gender"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-black focus:border-black sm:text-sm"
+                >
+                  <option value="">Select gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
             </div>
 
