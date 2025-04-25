@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import {
-  FaUser,
-  FaEnvelope,
-  FaPhone,
   FaClipboardList,
   FaChevronDown,
 } from "react-icons/fa";
 import { MdHealthAndSafety } from "react-icons/md";
 import Search from "../../components/Search";
 import Header from "../../layouts/Header";
+import { toast } from 'react-toastify';
+import { SERVER_URL } from '../../constant';
+import axios from 'axios'
+import { useNavigate, useParams } from "react-router-dom";
+
 
 function EnrollClient() {
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const {id} = useParams()
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
     programs: [],
     medicalHistory: "",
     enrollmentDate: new Date().toISOString().split("T")[0],
@@ -65,19 +68,30 @@ function EnrollClient() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     const selectedProgramNames = healthPrograms
       .filter((p) => formData.programs.includes(p.id))
       .map((p) => p.name);
-
-    const submissionData = {
-      ...formData,
-      programNames: selectedProgramNames,
-    };
-
-    console.log("Enrolling client with data:", submissionData);
+  
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${SERVER_URL}/enroll/`, {
+        client_id: id,
+        medicalHistory: formData.medicalHistory,
+        program_name: selectedProgramNames
+      });
+      
+      toast.success(response?.data?.message);
+      navigate(`/clients/${id}/programs`);
+    } catch (err) {
+      toast.error(err.response?.data?.message);
+      setIsLoading(false);
+    }
   };
+  
+  
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
@@ -203,9 +217,11 @@ function EnrollClient() {
                 </label>
                 <div className="mt-1">
                   <textarea
+                   id="medicalHistory"  // Adding the id for consistency
+                   name="medicalHistory" // Ensure that the name is set to "medicalHistory"
                     rows={4}
                     value={formData.medicalHistory}
-                    onChange={handleChange}
+                    onChange={handleChange}  
                     className="block w-full border border-gray-300 rounded-md py-2 px-3 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Any relevant medical history or notes..."
                   />
