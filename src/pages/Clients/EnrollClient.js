@@ -218,8 +218,8 @@ function EnrollClient() {
                 </label>
                 <div className="mt-1">
                   <textarea
-                   id="medicalHistory"  // Adding the id for consistency
-                   name="medicalHistory" // Ensure that the name is set to "medicalHistory"
+                   id="medicalHistory"  
+                   name="medicalHistory"
                     rows={4}
                     value={formData.medicalHistory}
                     onChange={handleChange}  
@@ -230,7 +230,7 @@ function EnrollClient() {
               </div>
             </div>
 
-            <div className="flex justify-end space-x-3 pt-4">
+            <div className="flex justify-center lg:justify-end space-x-3 pt-4">
               <button
                 type="submit"
                 className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black focus:outline-none"
