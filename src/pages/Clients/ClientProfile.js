@@ -111,7 +111,7 @@ function ClientProfile() {
 
         {/* Enrolled Programs Section */}
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
+          <div className="md:flex items-center justify-between mb-4">
             <h3 className="text-2xl font-semibold text-gray-800">
               Enrolled Health Programs
             </h3>

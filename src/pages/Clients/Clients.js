@@ -60,7 +60,7 @@ const deleteClient = async (clientId) => {
   
 
   return (
-    <div className="bg-gray-50 min-h-screen p-6">
+    <div className="bg-gray-50 min-h-screen p-2 md:p-6">
       <Header/>
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
