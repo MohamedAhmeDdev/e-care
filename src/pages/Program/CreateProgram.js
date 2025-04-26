@@ -111,7 +111,7 @@ function CreateProgram() {
               </div>
             </div>
 
-            <div className="bg-gray-50 px-6 py-4 flex justify-end border-t">
+            <div className="bg-gray-50 px-6 py-4 flex justify-center lg:justify-end border-t">
               <button
                 type="submit"
                 disabled={isLoading}

@@ -77,9 +77,9 @@ const deleteProgram = async (id) => {
                     <MdHealthAndSafety className="text-blue-600" size={24} />
                   </div>
                   <div className="ml-4">
-                    <div className="flex items-center">
+                    <div className="flex flex-col lg:flex md:flex-row">
                       <h3 className="text-lg font-semibold text-gray-900">{program.program_name}</h3>
-                      <span className="ml-2 px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                      <span className="ml-2 px-2 py-1 text-center text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
                         {program.code}
                       </span>
                     </div>
